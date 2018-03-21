@@ -1,5 +1,9 @@
 # ReactJSTutorial
 
 ```
-To run this project, open up command prompt, cd into the my-app directory and type "npm start".
+To run this project:
+	-Open up command prompt
+	-cd into the my-app directory
+	-Type "npm install"
+	-Type "npm start".
 ```
