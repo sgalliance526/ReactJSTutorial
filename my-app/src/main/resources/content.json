@@ -1,0 +1,20 @@
+[
+	{
+		"title": "The Return of Batman",
+		"content": "At first, I was excited to read this book. Grant Morrison Batman run, the death and return of the dark knight, was where I chose to seriously start my comic collection.",
+		"view": "batman-review.html",
+		"image": "/img/batman-the-return-of-bruce-wayne.jpg"
+	},
+	{
+		"title": "Nova Volume 1",
+		"content": "Would I get the wacky cartoon Sam Alexander from the Ultimate Spider-Man cartoon, or would I get the stoic Nova that I remember reading a few years ago. I got neither.",
+		"view": "nova-review.html",
+		"image": "/img/nova_vol_5_1.jpg"
+	},
+	{
+		"title": "Original Sin",
+		"content": "Original Sin, was amazing to say nonetheless. It had me hooked from issue one, and very eager to see the what repercussions will unfold in the Marvel universe.",
+		"view": "original-sin-review.html",
+		"image": "/img/original-sin.jpg"
+	}
+]

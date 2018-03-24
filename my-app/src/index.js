@@ -1,117 +1,97 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './css/index.css';
+//TODO: find a less cumbersome way to load images
+import img1 from './img/batman-the-return-of-bruce-wayne.jpg';
+import img2 from './img/nova_vol_5_1.jpg';
+import img3 from './img/original-sin.jpg';
+import img4 from './img/theDeathofCaptainAmerica.jpg';
+import img5 from './img/Dragon-Ball-Z-Battle-of-Gods-Wallpaper.jpg';
+import img6 from './img/aldnoah-zero.jpg';
+import content from './main/resources/content';
 
-function Square(props) {
-    return (
-        <button className="square" onClick={props.onClick}>
-            {props.value}
-        </button>
-    );
+//putting the imported images into an array to use in the cards
+let images = [img1, img2, img3, img4, img5, img6];  //not a fan of this implementation, but it works for this project for now.
+
+class Review extends React.Component {
+    render() {
+        return( //TODO: add a div.row for every three cards
+            <div class="row">
+                {
+                    //load json content into cards in the ui
+                    content.map(function(card, index){
+                        return (
+                            <a href={'view/' + card.href}>
+                                <div class="col">
+                                    <div class="tiles">
+                                        <img src={images[index]}/>
+                                    </div>
+                                    <h2>{card.title}</h2>
+                                    <p>{card.content}</p>
+                                </div>
+                            </a>
+                        );
+                    })
+                }
+            </div>
+        );  //end return
+    };  //end render
 }
 
-class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            <Square
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
-    }
-
+class Comics extends React.Component {
     render() {
         return (
-          <div>
-            <div className="board-row">
-              {this.renderSquare(0)}
-              {this.renderSquare(1)}
-              {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(3)}
-              {this.renderSquare(4)}
-              {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(6)}
-              {this.renderSquare(7)}
-              {this.renderSquare(8)}
-            </div>
-          </div>
-        );
-    }
-}
+          <div className="comics">
+              <div class="container">
+                  <div class="title text">
+                      <h1>WELCOME TO STRYDER NEWS!</h1>
+                  </div>
 
-class Game extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null)
-            }],
-            stepNumber: 0,
-            xIsNext: true
-        };
-    }
+                  <div class="nav text">
+                      <ul class="navItems">
+                          <li class="active">Home</li>
+                          <li><a href="#">Reviews</a></li>
+                          <li><a href="#">Forums</a></li>
+                      </ul>
+                  </div>
 
-    jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: (step % 2) === 0
-        });
-    };
+                  <div class="main">
+                      <Review/>
+                      <div class="row">
+                          <a href="captainAmerica-review.html">
+                              <div class="col">
+                                  <div class="tiles">
+                                      <img src={img4}/>
+                                  </div>
+                                  <h2> Death of Captain America</h2>
+                                  <p>I must say that I was never really into Captain America, but it was this death that caused me to research his lore and why Steve Rogers became the inspirational Captain America.</p>
+                              </div>
+                          </a>
+                          <a href="dbz-review.html">
+                              <div class="col">
+                                  <div class="tiles">
+                                      <img src={img5}/>
+                                  </div>
+                                  <h2>DBZ: Battle of Gods</h2>
+                                  <p>Battle of Gods was an enjoyable movie to say the least.  After 20 years, Dragonball Z still delivers quality content that is enjoyable to both long-time fans and new viewers.</p>
+                              </div>
+                          </a>
+                          <a href="aldnoahZero-review.html">
+                              <div class="col">
+                                  <div class="tiles">
+                                      <img src={img6}/>
+                                  </div>
+                                  <h2>Aldnoah Zero</h2>
+                                  <p>Throughout the war between Mars and Earth, Aldnoah Zero delivers great action and story.  I had heard great things about this anime, and it did not disappoint.</p>
+                              </div>
+                          </a>
+                      </div>
+                  </div>
 
-    handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[history.length - 1];
-        const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            history: history.concat([{
-              squares: squares
-            }]),
-            stepNumber: history.length,
-            xIsNext: !this.state.xIsNext,
-        });
-    };
-
-    render() {
-        const history = this.state.history;
-        const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
-
-        const moves = history.map((step, move) => {
-            const desc = move ? 'Go to move #' + move : 'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        });
-
-        let status;
-        if(winner) {
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
-
-        return (
-          <div className="game">
-            <div className="game-board">
-              <Board
-                squares={current.squares}
-                onClick={i => this.handleClick(i)}
-              />
-            </div>
-            <div className="game-info">
-              <div>{status}</div>
-              <ol>{moves}</ol>
-            </div>
+                  <footer>
+                      <h6 class="text">Site powered by Sean Gray.</h6>
+                  </footer>
+              </div>
           </div>
         );
     }
@@ -120,27 +100,6 @@ class Game extends React.Component {
 // ========================================
 
 ReactDOM.render(
-    <Game />,
+    <Comics />,
     document.getElementById('root')
 );
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
