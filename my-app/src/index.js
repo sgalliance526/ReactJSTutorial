@@ -12,34 +12,61 @@ import content from './main/resources/content';
 
 //putting the imported images into an array to use in the cards
 let images = [img1, img2, img3, img4, img5, img6];  //not a fan of this implementation, but it works for this project for now.
+const MAX_NUMBER_OF_CARDS_PER_ROWS = 3;
+let cardArr = [];
+
+function getContent(){
+    cardArr = [];
+    content.map(function(card, index){
+        cardArr[index] = card;
+    });
+}
 
 class Review extends React.Component {
     render() {
-        return( //TODO: add a div.row for every three cards
-            <div class="row">
-                {
-                    //load json content into cards in the ui
-                    content.map(function(card, index){
-                        return (
-                            <a href={'view/' + card.href}>
-                                <div class="col">
-                                    <div class="tiles">
-                                        <img src={images[index]}/>
-                                    </div>
-                                    <h2>{card.title}</h2>
-                                    <p>{card.content}</p>
-                                </div>
-                            </a>
-                        );
-                    })
-                }
-            </div>
-        );  //end return
+        let element = [];
+        var card = cardArr.splice(0, MAX_NUMBER_OF_CARDS_PER_ROWS);
+        var img = images.splice(0, MAX_NUMBER_OF_CARDS_PER_ROWS);
+        for(let i = 0; i < card.length; i++) {
+            console.log("card: " + JSON.stringify(card));
+            element[i] = (
+                <a href={'view/' + card[i].href}>
+                    <div class="col">
+                        <div class="tiles">
+                            <img src={img[i]}/>
+                        </div>
+                        <h2>{card[i].title}</h2>
+                        <p>{card[i].content}</p>
+                    </div>
+                </a>
+            );
+        }
+
+        return element;
     };  //end render
+}
+
+class CardView extends React.Component {
+    render() {
+        let element = [];
+        let cardLength = cardArr.length;
+        //add a div.row for every three cards
+        for(let i = 0; i < cardLength/MAX_NUMBER_OF_CARDS_PER_ROWS; i++) {
+            element[i] = (
+                <div class="row">
+                    <Review/>
+                </div>
+            );
+        }
+
+        return element;
+    };    //end render
 }
 
 class Comics extends React.Component {
     render() {
+        getContent();
+
         return (
           <div className="comics">
               <div class="container">
@@ -50,42 +77,13 @@ class Comics extends React.Component {
                   <div class="nav text">
                       <ul class="navItems">
                           <li class="active">Home</li>
-                          <li><a href="#">Reviews</a></li>
-                          <li><a href="#">Forums</a></li>
+                          <li><a>Reviews</a></li>
+                          <li><a>Forums</a></li>
                       </ul>
                   </div>
 
                   <div class="main">
-                      <Review/>
-                      <div class="row">
-                          <a href="captainAmerica-review.html">
-                              <div class="col">
-                                  <div class="tiles">
-                                      <img src={img4}/>
-                                  </div>
-                                  <h2> Death of Captain America</h2>
-                                  <p>I must say that I was never really into Captain America, but it was this death that caused me to research his lore and why Steve Rogers became the inspirational Captain America.</p>
-                              </div>
-                          </a>
-                          <a href="dbz-review.html">
-                              <div class="col">
-                                  <div class="tiles">
-                                      <img src={img5}/>
-                                  </div>
-                                  <h2>DBZ: Battle of Gods</h2>
-                                  <p>Battle of Gods was an enjoyable movie to say the least.  After 20 years, Dragonball Z still delivers quality content that is enjoyable to both long-time fans and new viewers.</p>
-                              </div>
-                          </a>
-                          <a href="aldnoahZero-review.html">
-                              <div class="col">
-                                  <div class="tiles">
-                                      <img src={img6}/>
-                                  </div>
-                                  <h2>Aldnoah Zero</h2>
-                                  <p>Throughout the war between Mars and Earth, Aldnoah Zero delivers great action and story.  I had heard great things about this anime, and it did not disappoint.</p>
-                              </div>
-                          </a>
-                      </div>
+                      <CardView/>
                   </div>
 
                   <footer>
