@@ -15,6 +15,7 @@ let images = [img1, img2, img3, img4, img5, img6];  //not a fan of this implemen
 const MAX_NUMBER_OF_CARDS_PER_ROWS = 3;
 let cardArr = [];
 
+//get JSON content
 function getContent(){
     cardArr = [];
     content.map(function(card, index){
@@ -27,8 +28,9 @@ class Review extends React.Component {
         let element = [];
         var card = cardArr.splice(0, MAX_NUMBER_OF_CARDS_PER_ROWS);
         var img = images.splice(0, MAX_NUMBER_OF_CARDS_PER_ROWS);
+
+        //add cards to array
         for(let i = 0; i < card.length; i++) {
-            console.log("card: " + JSON.stringify(card));
             element[i] = (
                 <a href={'view/' + card[i].href}>
                     <div class="col">
@@ -52,6 +54,7 @@ class CardView extends React.Component {
         let cardLength = cardArr.length;
         //add a div.row for every three cards
         for(let i = 0; i < cardLength/MAX_NUMBER_OF_CARDS_PER_ROWS; i++) {
+            //add rows to an array
             element[i] = (
                 <div class="row">
                     <Review/>
